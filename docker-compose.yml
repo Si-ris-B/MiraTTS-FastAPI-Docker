@@ -1,0 +1,24 @@
+services:
+  miratts:
+    build: .
+    container_name: miratts_api
+    runtime: nvidia # Ensure this is set if using older docker versions
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    environment:
+      - HF_HOME=/app/models
+      - MODEL_DIR=YatharthS/MiraTTS
+      - REFERENCE_FILE=/app/data/reference.wav
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,video
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped

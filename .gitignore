@@ -1,0 +1,7 @@
+# Local data and models
+/models/
+data/*.wav
+data/*.mp3
+__pycache__/
+*.pyc
+/.idea/
