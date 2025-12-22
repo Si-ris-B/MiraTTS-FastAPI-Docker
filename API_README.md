@@ -6,11 +6,14 @@ This project provides an enhanced API layer for the MiraTTS engine, implementing
 
 The primary enhancement of this API is the removal of the character limit inherent in the base model. The service utilizes a robust text processor that automatically splits long inputs into optimal segments using advanced sentence-boundary detection. These segments are processed as a batch on the GPU and merged into a single continuous audio stream. This allows for the generation of audio for long-form content, such as articles or documents, without manual splitting or stability issues.
 
-## API Features
+## Features
 
 *   **OpenAI Compatibility:** Fully compatible with the OpenAI TTS API specification, allowing for immediate use in tools like Open WebUI and LobeChat.
+*   **Voice Cloning:** Zero-shot cloning via local audio files in the `data/voices` directory.
 *   **Dynamic Reference Loading:** No hardcoded reference voices. The API scans for available voice samples dynamically.
 *   **Context Caching:** Voice samples are encoded into tokens once and cached in memory, significantly reducing latency for subsequent requests using the same voice.
+*   **Natural Pacing:** Automatically inserts silence buffers between processed text chunks to ensure natural-sounding speech flow.
+*   **High Performance:** Optimized inference using LMDeploy with context caching for repeat voices.
 *   **Performance Tracking:** Detailed monitoring of Real-Time Factor (RTF) and generation speed for every request.
 
 ## Voice Setup
