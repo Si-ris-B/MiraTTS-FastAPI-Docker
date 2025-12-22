@@ -3,9 +3,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 class TextProcessor:
-    def __init__(self, max_chars: int = 250):
+    def __init__(self, max_chars: int = 200):
+        # 200 is the 'Golden Limit' for stability in LLM-TTS
         self.max_chars = max_chars
 
     def split_into_sentences(self, text: str):
@@ -21,6 +21,7 @@ class TextProcessor:
                 text = text.replace(abbrev, placeholder)
                 protected[placeholder] = abbrev
 
+        # Split at . ! ? and also consider splitting at ; or : for shorter chunks
         sentences = re.split(r'(?<=[.!?])\s+', text)
 
         final = []
@@ -31,10 +32,14 @@ class TextProcessor:
         return final
 
     def chunk_text(self, text: str) -> list[str]:
+        """Groups sentences into chunks <= 200 chars.
+        Splits at commas if a sentence is too long to prevent word cutting."""
         sentences = self.split_into_sentences(text)
         chunks = []
         current = ""
+
         for s in sentences:
+            # If the sentence is longer than the limit, split it by commas first
             if len(s) > self.max_chars:
                 if current: chunks.append(current.strip()); current = ""
                 words = s.split(' ')

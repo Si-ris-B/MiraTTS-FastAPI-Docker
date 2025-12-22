@@ -4,7 +4,7 @@ This project provides an enhanced API layer for the MiraTTS engine, implementing
 
 ## Unlimited Text Generation
 
-The primary enhancement of this API is the removal of the 255-character limit inherent in the base model. The service utilizes a robust text processor that automatically splits long inputs into optimal segments using advanced sentence-boundary detection. These segments are processed as a batch on the GPU and merged into a single continuous audio stream. This allows for the generation of audio for long-form content, such as articles or documents, without manual splitting or stability issues.
+The primary enhancement of this API is the removal of the character limit inherent in the base model. The service utilizes a robust text processor that automatically splits long inputs into optimal segments using advanced sentence-boundary detection. These segments are processed as a batch on the GPU and merged into a single continuous audio stream. This allows for the generation of audio for long-form content, such as articles or documents, without manual splitting or stability issues.
 
 ## API Features
 
@@ -41,7 +41,7 @@ Converts text to audio using the OpenAI-compatible endpoint.
 
 | Parameter | Type | Description |
 | :--- | :--- | :--- |
-| `model` | string | Model identifier (e.g., `tts-1`). |
+| `model` | string | Model identifier (e.g., `mira-tts`). |
 | `input` | string | Text input. Supports unlimited length via automatic chunking. |
 | `voice` | string | The name of the voice file in the data directory. |
 | `response_format` | string | Desired format (`wav`, `mp3`, `flac`). |
@@ -49,7 +49,7 @@ Converts text to audio using the OpenAI-compatible endpoint.
 **Request Example:**
 ```json
 {
-  "model": "tts-1",
+  "model": "mira-tts",
   "input": "This text can be exceptionally long. The API will split it into segments, generate the audio for each part, and combine them into one file automatically.",
   "voice": "alex",
   "response_format": "wav"
@@ -77,6 +77,6 @@ Returns information about the underlying TTS model.
 ## Technical Details
 
 *   **Sample Rate:** 48000Hz.
-*   **Chunking Limit:** 255 characters per segment (managed internally).
+*   **Chunking Limit:** 200 characters per segment (managed internally).
 *   **Batching:** All chunks are processed in a single GPU pass for maximum speed.
 *   **Normalization:** Automatic peak normalization to ensure consistent audio levels across chunks.

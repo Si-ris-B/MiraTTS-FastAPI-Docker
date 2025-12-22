@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class TTSService:
     def __init__(self):
         self.model = None
-        self.processor = TextProcessor(max_chars=250)
+        self.processor = TextProcessor(max_chars=200)
         self.voice_dir = "/app/data/voices"
         self.context_cache = {}
         os.makedirs(self.voice_dir, exist_ok=True)
